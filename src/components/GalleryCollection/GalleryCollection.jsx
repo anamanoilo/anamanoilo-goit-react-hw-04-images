@@ -62,14 +62,13 @@ function GalleryCollection({ onImageClick, query }) {
   };
 
   useEffect(() => {
-    setHits([]);
-    api.resetPage();
-    loadPhotos();
+    if (query) {
+      setHits([]);
+      api.resetPage();
+      loadPhotos();
+    }
   }, [query]);
 
-  // useEffect(() => {
-  //   loadPhotos();
-  // }, [loadPhotos]);
   useEffect(() => {
     if (api.page !== 1) {
       toast.info("We're sorry, but you've reached the end of search results.");
