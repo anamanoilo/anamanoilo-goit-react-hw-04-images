@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import ImageGallery from 'components/ImageGallery';
@@ -18,7 +18,7 @@ function GalleryCollection({ onImageClick, query }) {
   const [hits, setHits] = useState([]);
   const [loadMore, setLoadMore] = useState(false);
 
-  const loadPhotos = async () => {
+  const loadPhotos = useCallback(async () => {
     api.query = query;
     if (api.query) {
       try {
@@ -42,7 +42,9 @@ function GalleryCollection({ onImageClick, query }) {
 
         const pages = Math.ceil(data.totalHits / api.totalPages);
 
-        setHits(api.page !== 1 ? [...hits, ...imagesData] : [...imagesData]);
+        setHits(prev =>
+          api.page !== 1 ? [...prev, ...imagesData] : imagesData
+        );
         setStatus(statuses.RESOLVED);
         setLoadMore(api.page !== pages);
 
@@ -54,7 +56,7 @@ function GalleryCollection({ onImageClick, query }) {
         toast.error('Something went wrong. Please try again');
       }
     }
-  };
+  }, [query]);
 
   const onLoadMore = () => {
     api.incrementPage();
@@ -62,13 +64,8 @@ function GalleryCollection({ onImageClick, query }) {
   };
 
   useEffect(() => {
-    if (query) {
-      setHits([]);
-      api.resetPage();
-      loadPhotos();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+    loadPhotos();
+  }, [loadPhotos]);
 
   useEffect(() => {
     if (api.page !== 1) {

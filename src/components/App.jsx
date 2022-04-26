@@ -5,6 +5,7 @@ import Searchbar from './Searchbar';
 import Modal from './Modal';
 import GalleryCollection from './GalleryCollection/';
 import { CONSTANT_TYPES, appReducer } from 'services/appReducer';
+import api from 'services/Api';
 
 const initialState = {
   query: '',
@@ -21,6 +22,7 @@ const App = () => {
 
   const onSubmit = query => {
     dispatch({ type: CONSTANT_TYPES.QUERY, payload: query });
+    api.resetPage();
   };
 
   const closeModal = () => {
