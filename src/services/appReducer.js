@@ -1,10 +1,3 @@
-const initialState = {
-  query: '',
-  modalIsShown: false,
-  title: '',
-  src: '',
-};
-
 const CONSTANT_TYPES = {
   SRC: 'src',
   TITLE: 'title',
@@ -12,7 +5,7 @@ const CONSTANT_TYPES = {
   QUERY: 'query',
 };
 
-function reducer(state, action) {
+function appReducer(state, action) {
   const { type, payload } = action;
   switch (type) {
     case CONSTANT_TYPES.SRC:
@@ -28,4 +21,4 @@ function reducer(state, action) {
   }
 }
 
-export { initialState, CONSTANT_TYPES, reducer };
+export { CONSTANT_TYPES, appReducer };

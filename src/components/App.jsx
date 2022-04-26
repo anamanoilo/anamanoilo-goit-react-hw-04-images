@@ -4,11 +4,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './Searchbar';
 import Modal from './Modal';
 import GalleryCollection from './GalleryCollection/';
-import { initialState, CONSTANT_TYPES, reducer } from 'services/Reducer';
+import { CONSTANT_TYPES, appReducer } from 'services/appReducer';
+
+const initialState = {
+  query: '',
+  modalIsShown: false,
+  title: '',
+  src: '',
+};
 
 const App = () => {
   const [{ src, title, modalIsShown, query }, dispatch] = useReducer(
-    reducer,
+    appReducer,
     initialState
   );
 
